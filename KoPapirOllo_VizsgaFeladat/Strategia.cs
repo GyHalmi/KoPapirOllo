@@ -10,31 +10,33 @@ namespace KoPapirOllo_VizsgaFeladat
     abstract class Strategia
     {
         private static Random rnd;
-        //public static int jatszottKorok { get; set; }
-        //public static int gepNyert { get; set; }
-        //public static int jatekosNyert { get; set; }
+
+        public static List<Strategia> LetezoStrategiak = new List<Strategia>();
         public string Nev { get; set; }
+        public bool Aktiv { get; set; }
 
         public Strategia(string nev)
         {
             rnd = new Random();
             Nev = nev;
-            //jatszottKorok = 0;
-            //jatekosNyert = 0;
-            //gepNyert = 0;
+            LetezoStrategiak.Add(this);
         }
 
         public abstract Tipp tippel();
+
+        public void aktival()
+        {
+            foreach (var str in LetezoStrategiak)
+            {
+                if (str == this) str.Aktiv = true;
+                else str.Aktiv = false;
+            }
+        }
         
         protected int veletlenSzam()
         {
             return rnd.Next(0, 3);
         }
-        //public override string ToString()
-        //{
-        //    return $"Stratégia: ${Nev} ({jatszottKorok} kör)\n" +
-        //        $"Gép nyert: {gepNyert}, Játékos nyert: {jatekosNyert}, Döntetlen: {jatszottKorok - gepNyert - jatekosNyert}";
-        //}
 
     }
 }

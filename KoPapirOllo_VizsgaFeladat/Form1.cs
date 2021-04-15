@@ -15,13 +15,7 @@ namespace KoPapirOllo_VizsgaFeladat
     enum Tipp { Ko, Papir, Ollo, NincsTipp };
     public partial class Form1 : Form
     {
-
         private List<RadioButton> rdbk;
-        private ToolStripMenuItem[] strategiak;
-
-        public static bool strVeletlen;
-        public static bool strMinden;
-        public static bool strElozotUti;
 
         private Jatekos jatekos;
         private Gep gep;
@@ -30,16 +24,13 @@ namespace KoPapirOllo_VizsgaFeladat
         {
             InitializeComponent();
             rdbLista();
-            strategiaMenukLista();
-            jatekterIni();
 
             jatekos = new Jatekos("Gyuri");
             gep = new Gep();
+            jatekterIni();
 
             numKorok.Value = 12;
-            //MessageBox.Show(" az ElozotUti-hez el kell juttatni a jatekos.ElozoTipp-et ");
-
-
+            MessageBox.Show(" egy stratgéiát többszor példányosítani lehet -> átgondolni a veszélyeket");
         }
    private void jatekterIni()
         {
@@ -48,7 +39,7 @@ namespace KoPapirOllo_VizsgaFeladat
             numKorok.Maximum = 20;
 
             mnuVeletlen.Checked = true;
-            strVeletlen = true;
+            gep.strVel.aktival();
 
             lblGepTipp.Text = "";
             lblNyertes.Text = "";
@@ -72,8 +63,6 @@ namespace KoPapirOllo_VizsgaFeladat
             lblNyertes.Text = "";
             lblGepTipp.Text = "";
         }
-
-     
 
         private void egyKor()
         {
@@ -146,13 +135,6 @@ namespace KoPapirOllo_VizsgaFeladat
 
 
         //kezelőfelület
-        private void strategiaMenukLista()
-        {
-            strategiak = new ToolStripMenuItem[3];
-            strategiak[0] = mnuVeletlen;
-            strategiak[1] = mnuMinden;
-            strategiak[2] = mnuElozotUti;
-        }
         private void rdbLista()
         {
             rdbk = new List<RadioButton>();
@@ -185,6 +167,7 @@ namespace KoPapirOllo_VizsgaFeladat
         }
         private void pipalHaNemVolt(object sender)
         {
+            ToolStripMenuItem[] strategiak = { mnuVeletlen, mnuMinden, mnuElozotUti};
             ToolStripMenuItem strat = (ToolStripMenuItem)sender;
             if (strat.Checked == false)
             {
@@ -199,22 +182,17 @@ namespace KoPapirOllo_VizsgaFeladat
         private void stratVeletlen_Click(object sender, EventArgs e)
         {
             pipalHaNemVolt(sender);
-            strVeletlen = true;
-            strMinden = false;
-            strElozotUti = false;
-        }private void stratMinden_Click(object sender, EventArgs e)
+            gep.strVel.aktival();
+        }
+        private void stratMinden_Click(object sender, EventArgs e)
         {
             pipalHaNemVolt(sender);
-            strVeletlen = false;
-            strMinden = true;
-            strElozotUti = false;
+            gep.strMind.aktival();
         }
         private void stratElozotUti_Click(object sender, EventArgs e)
         {
             pipalHaNemVolt(sender);
-            strVeletlen = false;
-            strMinden = false;
-            strElozotUti = true;
+            gep.strElUt.aktival();
         }
         private void btnJatekIndul_Click(object sender, EventArgs e)
         {
@@ -225,7 +203,6 @@ namespace KoPapirOllo_VizsgaFeladat
             jatekos.Tipp = (Tipp)((RadioButton)sender).Tag;
             if (JatekVezeto.lejatszottKorok < JatekVezeto.tervezettKorok) egyKor();
             else vege();
-
         }
         private void btnMentes_Click(object sender, EventArgs e)
         {

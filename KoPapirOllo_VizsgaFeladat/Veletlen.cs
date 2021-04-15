@@ -10,7 +10,7 @@ namespace KoPapirOllo_VizsgaFeladat
     {
         public Veletlen(): base("Véletlen")
         {
-
+            
         }
         public override Tipp tippel()
         {
